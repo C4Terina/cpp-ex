@@ -10,7 +10,7 @@
 
 class Student {
   private:
-    char *AM; //code of student 
+    char *AM = nullptr; //code of student 
     std::string name; //name of student 
     unsigned int semester; //semester of student 
 
@@ -28,7 +28,7 @@ class Student {
     std::string getName() const;
     unsigned int getSemester() const;
     //Overloading 
-    Student operator=(const Student &std); 
+    Student& operator=(const Student &std); 
     Student operator+=(const Student &std);
     Student operator-=(const Student &std);
     Student operator++(int x);
@@ -42,4 +42,3 @@ class Student {
 };
 
 #endif 
-

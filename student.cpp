@@ -74,11 +74,11 @@ Student Student::operator-=(const Student &std) {
   return *this;
 }
 
-Student Student::operator=(const Student& std) {
+Student& Student::operator=(const Student& std) {
   if (this->AM) {
       delete [] this->AM;
   }
-
+  
   this->AM = new (std::nothrow) char [strlen(std.AM) + 1];
   if (this->AM == nullptr) {
       std::cout << "Error allocating memory" << '\n';
