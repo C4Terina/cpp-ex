@@ -1,5 +1,7 @@
 #include "student.h"
 #include <fstream>
+#include <algorithm>
+#include <vector>
 
 //Getters & Setters 
 void Student::setAM (const char *AM) {
@@ -32,6 +34,10 @@ std::string Student::getName() const {
 
 unsigned int Student::getSemester() const {
   return this->semester;
+}
+
+std::vector<Subject *> Student::getDeclared() const {
+    return declared_subjects;
 }
 
 //Constructors & Deconstructor
@@ -93,8 +99,13 @@ Student& Student::operator=(const Student& std) {
   return *this;
 }
 
-Student Student::operator+=(const Subject& subject){
-  declared_subjects.push_back(&subject); 
+Student Student::operator+=(Subject* subject){
+  auto it = find(declared_subjects.begin(), declared_subjects.end(), subject);
+
+  if (it == declared_subjects.end()){
+    declared_subjects.push_back(subject); 
+  }
+  
   return *this;
 }
 
@@ -127,22 +138,25 @@ std::ostream& operator<<(std::ostream &obj, const Student &std) {
   obj << "AM: " << std.getAM() << '\n';
   obj << "Name: " << std.getName() << '\n';
   obj << "Semester: " << std.getSemester() << '\n';
-    
+  
+  for(const auto& declared : std.getDeclared()){
+    obj << *declared << '\n';
+  }
   return obj;    
 }
 
- void Student::writestd2file(const char* filename, ){
+ void Student::writestd2file(const char* filename){
   std::ofstream outputFile(filename);
   
-  if(!filename.is_open()){
+  if(!outputFile.is_open()){
     std::cout << "Error file not opened " << filename << '\n'; 
     exit(1);
   }
 
-  filename << "AM: " << this->getAM() << '\n';
-  filename << "Name: " << this->getName() << '\n';
-  filename << "Semester: " << this->getSemester() << '\n';
+  outputFile << "AM: " << this->getAM() << '\n';
+  outputFile << "Name: " << this->getName() << '\n';
+  outputFile << "Semester: " << this->getSemester() << '\n';
 
-  filename.close();
+  outputFile.close();
  }
 

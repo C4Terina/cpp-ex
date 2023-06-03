@@ -23,6 +23,9 @@ const bool Subject::getSubsem() const {
     return this->subsem;
  }
 
+std::string Subject::getSem() const {
+    return (subsem) ? std::string("Spring") : std::string("Winter"); 
+}
 //Setters
 void Subject::setCode(std::string& code) {
     this->code = code;
@@ -38,4 +41,14 @@ void Subject::setHours(unsigned int hours) {
 
 void Subject::setSubsem(bool subsem) {
     this->subsem = subsem;
+}
+
+
+
+std::ostream& operator << (std::ostream &os, const Subject &sub){
+  os << "Codename: " << sub.getCode() << '\n';
+  os << "Subject name: " << sub.getSubname() << '\n';
+  os << "Hours: " << sub.getHours() << '\n';
+  os << "Semester: " << sub.getSem() << '\n'; 
+  return os;    
 }

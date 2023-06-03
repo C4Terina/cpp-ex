@@ -9,6 +9,7 @@
 
 #include "subject.h"
 
+
 class Student {
   private:
     char *AM = nullptr; //code of student 
@@ -31,13 +32,15 @@ class Student {
     char* getAM() const;
     std::string getName() const;
     unsigned int getSemester() const;
+    std::vector<Subject *> getDeclared() const;
+
     
     //Overloading 
     Student& operator=(const Student &std); 
     Student operator+=(const Student &std);
     Student operator-=(const Student &std);
     Student operator++(int x);
-    Student operator+= (const Subject &subject);
+    Student operator+= (Subject* subject);
     constexpr bool operator==(const Student &std);
     constexpr bool operator!=(const Student &std);
     constexpr bool operator<(const Student &std);
@@ -45,8 +48,9 @@ class Student {
     constexpr bool operator>(const Student &std);
     constexpr bool operator>=(const Student &std);
     void writestd2file(const char* filename);
-
-    
+ 
 };
+
+std::ostream& operator << (std::ostream &obj, const Student &std);
 
 #endif 

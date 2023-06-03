@@ -22,11 +22,14 @@ class Subject {
     void setHours(unsigned int hours);
     void setSubsem(bool subsem);
 
-    const  std::string& getCode() const;
-    const  std::string& getSubname() const;
-    const  unsigned int getHours() const;
-    const  bool getSubsem() const; 
+    const std::string& getCode() const;
+    const std::string& getSubname() const;
+    const unsigned int getHours() const;
+    const bool getSubsem() const; 
+
+    std::string getSem() const;   
 };
  
+std::ostream& operator << (std::ostream &os, const Subject &sub);
 
 #endif
