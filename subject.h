@@ -9,7 +9,7 @@ class Subject {
     std::string code; //code of the subject 
     std::string subname; //Name of the subject 
     unsigned int hours; //Hours of the subject
-    bool subsem; // Winter semester is false and Spring semester is true
+    bool subsem; // Winter semester is 0 and Spring semester is 1
   public: 
     //Constructors
     Subject() = default;

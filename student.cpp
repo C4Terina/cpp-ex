@@ -1,4 +1,5 @@
 #include "student.h"
+#include <fstream>
 
 //Getters & Setters 
 void Student::setAM (const char *AM) {
@@ -92,6 +93,12 @@ Student& Student::operator=(const Student& std) {
   return *this;
 }
 
+Student Student::operator+=(const Subject& subject){
+  declared_subjects.push_back(&subject); 
+  return *this;
+}
+
+
 constexpr bool Student::operator==(const Student &std) {
   return this->semester == std.semester;
 }
@@ -124,4 +131,18 @@ std::ostream& operator<<(std::ostream &obj, const Student &std) {
   return obj;    
 }
 
+ void Student::writestd2file(const char* filename, ){
+  std::ofstream outputFile(filename);
+  
+  if(!filename.is_open()){
+    std::cout << "Error file not opened " << filename << '\n'; 
+    exit(1);
+  }
+
+  filename << "AM: " << this->getAM() << '\n';
+  filename << "Name: " << this->getName() << '\n';
+  filename << "Semester: " << this->getSemester() << '\n';
+
+  filename.close();
+ }
 
