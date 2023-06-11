@@ -123,11 +123,11 @@ constexpr bool Student::operator>=(const Student &std) {
 
 std::ostream &operator<<(std::ostream &obj, const Student &std) {
   obj << "AM: " << std.getAM() << '\n';
-  obj << "Name: " << std.getName() << '\n';
-  obj << "Semester: " << std.getSemester() << '\n';
+  obj << "Όνομα: " << std.getName() << '\n';
+  obj << "Εξάμηνο: " << std.getSemester() << '\n';
 
   // Print declared subjects
-  std::cout << "Declared subjects: " << '\n';
+  std::cout << "Δηλωμένα μαθήματα " << '\n';
   for (const auto &declared : std.getDeclared()) {
     obj << *declared << '\n';
   }
@@ -135,7 +135,7 @@ std::ostream &operator<<(std::ostream &obj, const Student &std) {
   Subject *subject;
   float grade;
 
-  std::cout << "Grades for each passed subject: " << '\n';
+  std::cout << "Βαθμοί από τα περασμένα μαθήματα  " << '\n';
 
   for (const auto &passed : std.getPassed()) {
     subject = std::get<Subject *>(passed);
@@ -143,7 +143,7 @@ std::ostream &operator<<(std::ostream &obj, const Student &std) {
     obj << subject->getSubname() << ": " << grade << '\n';
   }
 
-  obj << "Average: " << std.getAverage() << '\n';
+  obj << "Μ.Ο: " << std.getAverage() << '\n';
 
   return obj;
 }
@@ -157,36 +157,48 @@ std::vector<std::pair<Subject *, float>> Student::getPassed() const {
 }
 
 float Student::getAverage() const {
-  int cnt, sum;
-  float avg, grade;
-  cnt = 0;
-  sum = 0;
+  std::size_t const cnt = getPassed().size();
+  if (not cnt) {
+    return 0.0f;
+  }
 
+  float sum = 0.0f;
   for (const auto &passed : getPassed()) {
-    grade = std::get<float>(passed);
-    cnt++;
-    sum += grade;
+    sum += std::get<float>(passed);
   }
 
-  if (cnt != 0) {
-    avg = sum / (float)cnt;
-  } else {
-    std::cout << "You haven 't passed anything.. :(" << '\n';
-  }
-  return avg;
+  return (float)sum / cnt;
 }
 
 void Student::writestd2file(const char *filename) {
   std::ofstream outputFile(filename);
 
   if (!outputFile.is_open()) {
-    std::cout << "Error file not opened " << filename << '\n';
+    outputFile << "Error file not opened " << filename << '\n';
     exit(1);
   }
 
   outputFile << "AM: " << this->getAM() << '\n';
-  outputFile << "Name: " << this->getName() << '\n';
-  outputFile << "Semester: " << this->getSemester() << '\n';
+  outputFile << "Όνομα: " << this->getName() << '\n';
+  outputFile << "Εξάμηνο: " << this->getSemester() << '\n';
+  outputFile << "Δηλωμένα μαθήματα " << '\n';
+  for (const auto &declared : this->getDeclared()) {
+    outputFile << *declared << '\n';
+  }
+
+  Subject *subject;
+  float grade;
+
+  outputFile << "Βαθμοί από τα περασμένα μαθήματα  " << '\n';
+
+  for (const auto &passed : this->getPassed()) {
+    subject = std::get<Subject *>(passed);
+    grade = std::get<float>(passed);
+    outputFile << subject->getSubname() << ": " << grade << '\n';
+  }
+
+  outputFile << "Μ.Ο: " << this->getAverage() << '\n';
+
 
   outputFile.close();
 }
